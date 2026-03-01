@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    :root {
+        --primary-bg: #f4f7f6;
+        --card-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    body { background-color: var(--primary-bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    /* Action Bar Styling */
+    .action-bar {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 30px;
+        border: 1px solid #eef2f3;
+    }
+
+    /* Input Styling */
+    .custom-input {
+        border-radius: 10px;
+        padding: 12px 20px;
+        border: 2px solid #e2e8f0;
+        transition: 0.3s;
+    }
+    .custom-input:focus {
+        border-color: #10b981;
+        box-shadow: none;
+    }
+
+    /* Table Styling */
+    .attendance-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+    }
+    .table thead {
+        background-color: #f8fafc;
+        border-bottom: 2px solid #edf2f7;
+    }
+    .table th { font-weight: 600; color: #4a5568; padding: 18px; }
+    .table td { vertical-align: middle; padding: 15px; border-bottom: 1px solid #f1f5f9; }
+
+    /* Buttons Styling */
+    .btn-action {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        border: none;
+        text-decoration: none;
+    }
+    .btn-mark-present { background: #d1fae5; color: #059669; }
+    .btn-mark-present:hover { background: #10b981; color: white; transform: scale(1.1); }
+    
+    .btn-mark-absent { background: #fee2e2; color: #dc2626; }
+    .btn-mark-absent:hover { background: #ef4444; color: white; transform: scale(1.1); }
+
+    .nav-buttons .btn { border-radius: 10px; padding: 10px 20px; font-weight: 500; }
+</style>
+
+<div class="container py-4">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold text-dark m-0">Daily Attendance</h3>
+        <div class="nav-buttons">
+            <a href="/report" class="btn btn-primary shadow-sm me-2">
+                <i class="fas fa-chart-bar me-2"></i>View Reports
+            </a>
+            <a href="/logout" class="btn btn-outline-danger shadow-sm">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <form method="POST" action="/add" class="row g-3 align-items-center">
+            <div class="col-md-9">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 custom-input">
+                        <i class="fas fa-user text-muted"></i>
+                    </span>
+                    <input type="text" name="name" placeholder="Enter Student Name..." 
+                           class="form-control border-start-0 custom-input" required>
+                </div>
+            </div>
+            <div class="col-md-3 d-grid">
+                <button class="btn btn-success fw-bold py-2 shadow-sm" style="border-radius:10px;">
+                    <i class="fas fa-plus me-2"></i>Add Student
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="attendance-card">
+        <div class="table-responsive">
+            <table class="table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-start ps-5">Student Identity</th>
+                        <th>Mark Present</th>
+                        <th>Mark Absent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td class="text-start ps-5">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar me-3 bg-light rounded-circle d-flex align-items-center justify-content-center" style="width:40px; height:40px;">
+                                    <span class="text-primary fw-bold">{{ student[1][0]|upper }}</span>
+                                </div>
+                                <span class="fw-semibold text-dark">{{ student[1] }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="/mark/{{ student[0] }}/present" class="btn-action btn-mark-present shadow-sm" title="Present">
+                                <i class="fas fa-check"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/mark/{{ student[0] }}/absent" class="btn-action btn-mark-absent shadow-sm" title="Absent">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-3 text-center">
+        <p class="text-muted small">Total Students: <strong>{{ students|length }}</strong></p>
+    </div>
+
+</div>
+
+{% endblock %}

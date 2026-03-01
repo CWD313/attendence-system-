@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balaji Krishna Coaching Classes | Attendance System</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --primary-color: #1e3a8a; /* Deep Blue */
+            --accent-color: #f59e0b;  /* Golden/Amber */
+            --bg-light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: #334155;
+            overflow-x: hidden;
+        }
+
+        /* Modern Navbar */
+        .navbar {
+            background: var(--primary-color) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 12px 0;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: white !important;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand i {
+            color: var(--accent-color);
+            margin-right: 12px;
+            font-size: 1.8rem;
+        }
+
+        .brand-text { line-height: 1.1; }
+        .brand-subtitle {
+            font-size: 0.65rem;
+            display: block;
+            font-weight: 300;
+            color: rgba(255,255,255,0.8);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Flash Message Styling */
+        .alert {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Main Content Container */
+        .main-wrapper {
+            padding: 30px 0;
+            min-height: 80vh;
+        }
+
+        /* Footer */
+        footer {
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 40px;
+        }
+
+        /* Mobile Specific Optimization */
+        @media (max-width: 768px) {
+            .navbar-brand { font-size: 1rem; }
+            .main-wrapper { padding: 20px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand animate__animated animate__fadeInLeft" href="/list">
+                <i class="fas fa-om"></i>
+                <div class="brand-text">
+                    BALAJI KRISHNA
+                    <span class="brand-subtitle">Coaching Classes</span>
+                </div>
+            </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="/list"><i class="fas fa-home me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="/report"><i class="fas fa-file-alt me-1"></i> Reports</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <span class="badge bg-warning text-dark p-2 rounded-pill px-3 shadow-sm">
+                            <i class="far fa-calendar-alt me-1"></i> <span id="currentDate"></span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show animate__animated animate__headShake" role="alert">
+                <div class="d-flex align-items-center">
+                    {% if category == 'success' %}
+                        <i class="fas fa-check-circle me-2 fs-4"></i>
+                    {% else %}
+                        <i class="fas fa-exclamation-circle me-2 fs-4"></i>
+                    {% endif %}
+                    <div>{{ message }}</div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="main-wrapper">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p class="mb-1 fw-bold">Balaji Krishna Coaching Classes</p>
+            <p class="mb-0">&copy; 2026 Management Portal | Designed for Excellence</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Update live date in navbar
+        const d = new Date();
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        document.getElementById('currentDate').innerText = d.toLocaleDateString('en-IN', options);
+
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            let alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                let bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+    :root {
+        --bk-blue: #1e3a8a;
+        --bk-gold: #f59e0b;
+        --present-green: #10b981;
+        --absent-red: #ef4444;
+    }
+
+    .page-title {
+        color: var(--bk-blue);
+        font-weight: 700;
+        border-left: 5px solid var(--bk-gold);
+        padding-left: 15px;
+        margin-bottom: 25px;
+    }
+
+    /* Attendance Card Design */
+    .attendance-card {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 15px 20px;
+        margin-bottom: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: transform 0.2s;
+        border: 1px solid #edf2f7;
+    }
+
+    .attendance-card:active {
+        transform: scale(0.98); /* Touch feedback for mobile */
+    }
+
+    .student-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .student-initial {
+        width: 45px;
+        height: 45px;
+        background: var(--bk-blue);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin-right: 15px;
+        box-shadow: 0 3px 6px rgba(30, 58, 138, 0.2);
+    }
+
+    .student-name {
+        font-weight: 600;
+        color: #2d3748;
+        font-size: 1.1rem;
+    }
+
+    /* Action Buttons */
+    .btn-group-attendance {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-mark {
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.9rem;
+        transition: 0.3s;
+    }
+
+    .btn-p {
+        background-color: #d1fae5;
+        color: var(--present-green);
+        border: 1px solid #a7f3d0;
+    }
+
+    .btn-p:hover, .btn-p:active {
+        background-color: var(--present-green);
+        color: white;
+    }
+
+    .btn-a {
+        background-color: #fee2e2;
+        color: var(--absent-red);
+        border: 1px solid #fecaca;
+    }
+
+    .btn-a:hover, .btn-a:active {
+        background-color: var(--absent-red);
+        color: white;
+    }
+
+    /* Search/Header Bar */
+    .header-bar {
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    /* Responsive Mobile View */
+    @media (max-width: 576px) {
+        .attendance-card {
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+        .student-info {
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        .student-initial {
+            margin-right: 0;
+            margin-bottom: 10px;
+            width: 55px;
+            height: 55px;
+            font-size: 1.3rem;
+        }
+        .btn-group-attendance {
+            width: 100%;
+        }
+        .btn-mark {
+            flex: 1;
+            justify-content: center;
+            padding: 12px;
+        }
+    }
+</style>
+
+<div class="container animate__animated animate__fadeIn">
+    
+    <div class="header-bar d-flex justify-content-between align-items-center flex-wrap">
+        <h4 class="page-title mb-0">Daily Attendance</h4>
+        <div class="text-muted small fw-bold">
+            <i class="fas fa-users me-1 text-primary"></i> Total: {{ students|length }} Students
+        </div>
+    </div>
+
+    <div class="attendance-list mt-4">
+        {% for student in students %}
+        <div class="attendance-card">
+            <div class="student-info">
+                <div class="student-initial">
+                    {{ student[1][0] | upper }}
+                </div>
+                <div>
+                    <span class="student-name">{{ student[1] }}</span>
+                    <div class="text-muted" style="font-size: 0.75rem;">ID: #BK-0{{ student[0] }}</div>
+                </div>
+            </div>
+
+            <div class="btn-group-attendance">
+                <a href="/mark/{{ student[0] }}/present" class="btn-mark btn-p">
+                    <i class="fas fa-check-circle"></i> <span>Present</span>
+                </a>
+                <a href="/mark/{{ student[0] }}/absent" class="btn-mark btn-a">
+                    <i class="fas fa-times-circle"></i> <span>Absent</span>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="d-grid mt-4 d-md-none">
+        <a href="/report" class="btn btn-dark py-3 rounded-4 shadow">
+            <i class="fas fa-file-invoice me-2"></i> Go to Reports
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    .form-wrapper {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .add-card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+        border: 1px solid #f0f0f0;
+    }
+    .icon-header {
+        width: 70px;
+        height: 70px;
+        background: #eef2ff;
+        color: #4f46e5;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin: 0 auto 20px;
+    }
+    .custom-label {
+        font-weight: 600;
+        color: #4b5563;
+        margin-bottom: 8px;
+    }
+    .custom-input {
+        border-radius: 12px;
+        padding: 12px 15px;
+        border: 2px solid #e5e7eb;
+        transition: all 0.3s;
+    }
+    .custom-input:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        outline: none;
+    }
+    .btn-submit {
+        background: #4f46e5;
+        border: none;
+        border-radius: 12px;
+        padding: 12px;
+        font-weight: 600;
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+    .btn-submit:hover {
+        background: #4338ca;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+    }
+    .btn-back {
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: 0.2s;
+    }
+    .btn-back:hover {
+        color: #111827;
+    }
+</style>
+
+<div class="form-wrapper">
+    <div class="add-card animate__animated animate__fadeIn">
+        
+        <div class="text-center mb-4">
+            <div class="icon-header">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h3 class="fw-bold text-dark">New Enrollment</h3>
+            <p class="text-muted small">Enter the student's full name to add them to the system.</p>
+        </div>
+
+        <form method="POST">
+            <div class="mb-4">
+                <label class="custom-label">Student Name</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3" style="border: 2px solid #e5e7eb; border-radius: 12px 0 0 12px;">
+                        <i class="fas fa-id-card text-muted"></i>
+                    </span>
+                    <input type="text" name="name" 
+                           placeholder="e.g. Rahul Sharma" 
+                           class="form-control custom-input border-start-0" 
+                           style="border-radius: 0 12px 12px 0;"
+                           required>
+                </div>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-submit">
+                    <i class="fas fa-save me-2"></i>Register Student
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn-back">
+                <i class="fas fa-chevron-left me-1"></i> Cancel and Go Back
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
